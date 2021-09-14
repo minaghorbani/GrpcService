@@ -1,4 +1,5 @@
-﻿using Grpc.Net.Client;
+﻿using Grpc.Core;
+using Grpc.Net.Client;
 using GrpcService1;
 using System;
 using System.Threading.Tasks;
@@ -15,9 +16,22 @@ namespace Client
 
             var client = new Greeter.GreeterClient(channel);
 
-            var reply = await client.SayHelloAsync(new HelloRequest { Name = "Mina" });
+            var headers = new Grpc.Core.Metadata();
+            headers.Add("agent", "user");
 
-            Console.WriteLine(reply.Message);
+            var option = new Grpc.Core.CallOptions(headers  ,DateTime.UtcNow.AddSeconds(5));
+            try
+            {
+                var reply = await client.SayHelloAsync(new HelloRequest { Name = "Mina" }, option);
+
+                Console.WriteLine(reply.Message);
+            }
+            catch (RpcException ex )
+            {
+                Console.WriteLine(ex.StatusCode);
+            }
+
+            
         }
     }
 }
