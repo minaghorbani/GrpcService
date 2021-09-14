@@ -30,10 +30,17 @@ namespace Client
             }
             try
             {
-                //var reply = await client.SayHelloAsync(new HelloRequest { Name = "Mina" }, option);
-                var reply = await client.SayHelloAsync(new HelloRequest { Name = "Mina" }, headers, DateTime.UtcNow.AddSeconds(5),token);
+                var reply = await client.SayHelloAsync(new HelloRequest { Name = "Mina" }, option);
+                //var reply = await client.SayHelloAsync(new HelloRequest { Name = "Mina" }, headers, DateTime.UtcNow.AddSeconds(5),token);
 
                 Console.WriteLine(reply.Message);
+
+                var reply2 = await client.SayHelloListAsync(new HelloRequest { Name = "Grpc List" });
+                foreach (var item in reply2.List)
+                {
+                    Console.WriteLine(item.Message);
+                }
+                
             }
             catch (RpcException ex )
             {

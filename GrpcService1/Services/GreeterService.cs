@@ -17,11 +17,23 @@ namespace GrpcService1
 
         public async override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
         {
-            await Task.Delay(4000);
+            //await Task.Delay(4000);
             return new HelloReply
             {
                 Message = "Hello " + request.Name
             };
+        }
+
+        public async override Task<HelloReplyList> SayHelloList(HelloRequest request, ServerCallContext context)
+        {
+            var list = new HelloReplyList();
+            await Task.Delay(100);
+            for (int i = 1; i < 10; i++)
+            {
+                list.List.Add(new HelloReply { Message = $"gRPC test {i} {request.Name}" });
+            }
+
+            return list;
         }
     }
 }
