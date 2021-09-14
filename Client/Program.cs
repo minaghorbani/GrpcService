@@ -2,6 +2,7 @@
 using Grpc.Net.Client;
 using GrpcService1;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Client
@@ -20,9 +21,17 @@ namespace Client
             headers.Add("agent", "user");
 
             var option = new Grpc.Core.CallOptions(headers  ,DateTime.UtcNow.AddSeconds(5));
+
+            var source = new CancellationTokenSource();
+            var token = source.Token;
+            if (1==2)
+            {
+                source.CancelAfter(1000);
+            }
             try
             {
-                var reply = await client.SayHelloAsync(new HelloRequest { Name = "Mina" }, option);
+                //var reply = await client.SayHelloAsync(new HelloRequest { Name = "Mina" }, option);
+                var reply = await client.SayHelloAsync(new HelloRequest { Name = "Mina" }, headers, DateTime.UtcNow.AddSeconds(5),token);
 
                 Console.WriteLine(reply.Message);
             }
