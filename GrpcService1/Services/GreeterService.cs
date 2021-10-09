@@ -28,7 +28,7 @@ namespace GrpcService1
         {
             var list = new HelloReplyList();
             await Task.Delay(100);
-            for (int i = 1; i < 10; i++)
+            for (int i = 1; i <= request.Count; i++)
             {
                 list.List.Add(new HelloReply { Message = $"gRPC test {i} {request.Name}" });
             }

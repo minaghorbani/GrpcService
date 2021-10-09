@@ -35,7 +35,7 @@ namespace Client
 
                 Console.WriteLine(reply.Message);
 
-                var reply2 = await client.SayHelloListAsync(new HelloRequest { Name = "Grpc List" });
+                var reply2 = await client.SayHelloListAsync(new HelloRequest { Name = "Grpc List", Count = 5 });
                 foreach (var item in reply2.List)
                 {
                     Console.WriteLine(item.Message);
